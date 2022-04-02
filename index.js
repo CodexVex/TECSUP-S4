@@ -96,9 +96,24 @@ function movement(e){
 document.addEventListener('keydown', movement)
 
 //pull usuario
-user.style.left=currentPosition[0]+'px'
-user.style.bottom=currentPosition[1]+'px'
+function pullUser(){
+  user.style.left = currentPosition[0] + "px";
+  user.style.bottom = currentPosition[1] + "px";
+}
 
 //pull pelota
-ball.style.left=ballPosicionActual[0]+'px'
-ball.style.bottom=ballPosicionActual[1]+'px'
+function pullBall(){
+  ball.style.left = ballPosicionActual[0] + "px";
+  ball.style.bottom = ballPosicionActual[1] + "px";
+}
+
+//mover pelota
+function moverPelota(){
+    ballPosicionActual[0]+= xDireccion
+    ballPosicionActual[1]+= YDirection
+    drawBall()
+    checkForCollisions()
+}
+timerId=setInterval(moverPelota,30)
+
+//Revisar x colisiones
