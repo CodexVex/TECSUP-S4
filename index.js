@@ -72,3 +72,25 @@ const ball= document.createElement('div')
 ball.classList.add('ball')
 grid.appendChild(ball)
 drawBall()
+
+//movimientos
+
+function movement(e){
+    switch(e.key){
+        case 'FlechaIzquierda':
+            if (currentPosition[0]>0){
+                currentPosition[0]+=10
+                console.log(currentPosition[0]>0)
+                drawUser()
+            }
+            break
+            case 'FlechaDerecha':
+                if (currentPosition[0]< (boardWidth - blockWidth)){
+                    currentPosition[0] += 10
+                    console.log(currentPosition[0])
+                    drawUser()
+                }
+                break
+    }
+}
+document.addEventListener('keydown', movement)
