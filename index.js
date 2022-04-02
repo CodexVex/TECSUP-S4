@@ -94,3 +94,11 @@ function movement(e){
     }
 }
 document.addEventListener('keydown', movement)
+
+//pull usuario
+user.style.left=currentPosition[0]+'px'
+user.style.bottom=currentPosition[1]+'px'
+
+//pull pelota
+ball.style.left=ballPosicionActual[0]+'px'
+ball.style.bottom=ballPosicionActual[1]+'px'
