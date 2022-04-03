@@ -19,7 +19,7 @@ let score = 0;
 
 //mi bloque
 
-class Block {
+class block {
   constructor(xAxis, yAxis) {
     this.bottomLeft = [xAxis, yAxis];
     this.bottomRight = [xAxis + blockWidth, yAxis];
@@ -31,25 +31,25 @@ class Block {
 //todos los bloques
 
 const blocks = [
-  new Block(10, 350),
-  new Block(100, 350),
-  new Block(190, 350),
-  new Block(280, 350),
-  new Block(370, 350),
-  new Block(10, 320),
-  new Block(100, 320),
-  new Block(190, 320),
-  new Block(280, 320),
-  new Block(370, 320),
-  new Block(10, 290),
-  new Block(100, 290),
-  new Block(190, 290),
-  new Block(280, 290),
-  new Block(370, 290),
+  new block(10, 350),
+  new block(100, 350),
+  new block(190, 350),
+  new block(280, 350),
+  new block(370, 350),
+  new block(10, 320),
+  new block(100, 320),
+  new block(190, 320),
+  new block(280, 320),
+  new block(370, 320),
+  new block(10, 290),
+  new block(100, 290),
+  new block(190, 290),
+  new block(280, 290),
+  new block(370, 290),
 ];
 
 //dibujando los bloques
-function addBlocks() {
+function addblocks() {
   for (let i = 0; i < blocks.length; i++) {
     const block = document.createElement("div");
     block.classList.add("block");
@@ -59,7 +59,7 @@ function addBlocks() {
     console.log(blocks[i].bottomLeft);
   }
 }
-addBlocks();
+addblocks();
 
 //add usuario
 const user = document.createElement("div");
@@ -125,8 +125,8 @@ function checkxcolisiones() {
       ballPosicionActual[1] + ballDiametro > blocks[i].bottomLeft[1] &&
       ballPosicionActual[1] < blocks[i].topLeft[1]
     ) {
-      const allBlocks = Array.from(document.querySelectorAll(".block"));
-      allBlocks[i].classList.remove(".block");
+      const allblocks = Array.from(document.querySelectorAll(".block"));
+      allblocks[i].classList.remove(".block");
       blocks.splice(i, 1);
       changeDirection();
       score++;
@@ -139,38 +139,45 @@ function checkxcolisiones() {
     }
   }
   //chequeo x hits en la pared
-  if (ballPosicionActual[0]>=(tablaWidth -ballDiametro)|| ballPosicionActual[0]<= 0 ||ballPosicionActual[1]>=(tablaHeight-ballDiametro))
-{
-    changeDirection()
-}
-//chequeo x hit usuario
-    if(
-        (ballPosicionActual[0]>posicionActual[0] && ballPosicionActual[0]<posicionActual[0]+blockWidth) &&
-        (ballPosicionActual[1]>posicionActual[1] && ballPosicionActual[1]<posicionActual[1]+blockHeight)
-    )
-    {changeDirection()}
-//game-over🐶
-if(ballPosicionActual[1]<= 0){
-    clearInterval(timerId)
+  if (
+    ballPosicionActual[0] >= tablaWidth - ballDiametro ||
+    ballPosicionActual[0] <= 0 ||
+    ballPosicionActual[1] >= tablaHeight - ballDiametro
+  ) {
+    changeDirection();
+  }
+  //chequeo x hit usuario
+  if (
+    ballPosicionActual[0] > posicionActual[0] &&
+    ballPosicionActual[0] < posicionActual[0] + blockWidth &&
+    ballPosicionActual[1] > posicionActual[1] &&
+    ballPosicionActual[1] < posicionActual[1] + blockHeight
+  ) {
+    changeDirection();
+  }
+  //game-over🐶
+  if (ballPosicionActual[1] <= 0) {
+    clearInterval(timerId);
     scoreDisplay.innerHTML = "🏴‍☠️😭Perdiste😭🏴‍☠️";
-    document.removeEventListener('keydown',movement)
-}
+    document.removeEventListener("keydown", movement);
+  }
 }
 
-function changeDirection(){
-    if(xDireccion===2 && YDirection===2){
-        YDirection=-2
-        return
-    }
-    if(xDireccion===2 && YDirection===-2){
-        xDirection=-2
-        return
-    }
-    if(xDireccion===-2 && YDirection===-2){
-        YDirection=2
-        return
-    }
-    if(xDireccion===-2 && YDirection===2){
-        xDirection=2
-        return
-    }}
+function changeDirection() {
+  if (xDireccion === 2 && YDirection === 2) {
+    YDirection = -2;
+    return;
+  }
+  if (xDireccion === 2 && YDirection === -2) {
+    xDirection = -2;
+    return;
+  }
+  if (xDireccion === -2 && YDirection === -2) {
+    YDirection = 2;
+    return;
+  }
+  if (xDireccion === -2 && YDirection === 2) {
+    xDirection = 2;
+    return;
+  }
+}
