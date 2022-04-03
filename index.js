@@ -1,17 +1,17 @@
 const grid = document.querySelector(".grid");
 const scoreDisplay = document.querySelector("#score");
-const blockWidth = 80;
+const blockWidth = 100;
 const blockHeight = 20;
 const ballDiametro = 20;
-const tablaWidth = 600;
+const tablaWidth = 560;
 const tablaHeight = 300;
 let xDireccion = -2;
 let YDirection = 2;
 
-const userStart = [300, 10];
+const userStart = [230, 10];
 let posicionActual = userStart;
 
-const ballStart = [350, 40];
+const ballStart = [270, 40];
 let ballPosicionActual = ballStart;
 
 let timerId;
@@ -31,21 +31,21 @@ class block {
 //todos los bloques
 
 const blocks = [
-  new block(10, 350),
-  new block(100, 350),
-  new block(190, 350),
-  new block(280, 350),
-  new block(370, 350),
-  new block(10, 320),
-  new block(100, 320),
-  new block(190, 320),
-  new block(280, 320),
-  new block(370, 320),
-  new block(10, 290),
-  new block(100, 290),
-  new block(190, 290),
-  new block(280, 290),
-  new block(370, 290),
+  new block(10, 270),
+  new block(120, 270),
+  new block(230, 270),
+  new block(340, 270),
+  new block(450, 270),
+  new block(10, 240),
+  new block(120, 240),
+  new block(230, 240),
+  new block(340, 240),
+  new block(450, 240),
+  new block(10, 210),
+  new block(120, 210),
+  new block(230, 210),
+  new block(340, 210),
+  new block(450, 210),
 ];
 
 //dibujando los bloques
@@ -79,7 +79,7 @@ function movement(e) {
   switch (e.key) {
     case "FlechaIzquierda":
       if (currentPosition[0] > 0) {
-        currentPosition[0] += 10;
+        currentPosition[0] -= 10;
         console.log(currentPosition[0] > 0);
         drawUser();
       }
@@ -126,12 +126,12 @@ function checkxcolisiones() {
       ballPosicionActual[1] < blocks[i].topLeft[1]
     ) {
       const allblocks = Array.from(document.querySelectorAll(".block"));
-      allblocks[i].classList.remove(".block");
+      allblocks[i].classList.remove("block");
       blocks.splice(i, 1);
       changeDirection();
       score++;
       scoreDisplay.innerHTML = score;
-      if (blocks.lenght == 0) {
+      if (blocks.length == 0) {
         scoreDisplay.innerHTML = "✨🎉🎇Ganaste!🎈🥳🎈You won!🤑🎇🎉✨";
         clearInterval(timerId);
         document.removeEventListener("keydown", movement);
