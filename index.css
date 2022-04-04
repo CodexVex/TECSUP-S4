@@ -1,5 +1,11 @@
+*{
+
+}
 .grid {
   position: absolute;
+  display: grid;
+  justify-content: center;
+  align-items: center;
   width: 560px;
   height: 300px;
   border: solid 1px black;
