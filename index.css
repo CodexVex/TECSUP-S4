@@ -1,26 +1,29 @@
-*{
-    position: absolute;
+.grid {
+  position: absolute;
+  width: 560px;
+  height: 300px;
+  border: solid 1px black;
+  margin-top: 100px;
 }
 
-.grid{
-    width: 38rem;
-    height: 25rem;
-    border: solid 0.2rem black;
-    margin-top: 6rem;
+.user {
+  position: absolute;
+  width: 100px;
+  height: 20px;
+  background-color: blueviolet;
 }
-.user{
-    width: 6rem;
-    height: 2rem;
-    background-color: blueviolet;
+
+.block {
+  position: absolute;
+  width: 100px;
+  height: 20px;
+  background-color: blue;
 }
-.block{
-    background-color: blue;
-    width: 100px;
-    height: 20px;
-}
-.ball{
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    background-color: green;
+
+.ball {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: red;
 }

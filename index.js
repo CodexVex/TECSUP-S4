@@ -2,24 +2,23 @@ const grid = document.querySelector(".grid");
 const scoreDisplay = document.querySelector("#score");
 const blockWidth = 100;
 const blockHeight = 20;
-const ballDiametro = 20;
-const tablaWidth = 560;
-const tablaHeight = 300;
-let xDireccion = -2;
-let YDirection = 2;
+const ballDiameter = 20;
+const boardWidth = 560;
+const boardHeight = 300;
+let xDirection = -2;
+let yDirection = 2;
 
 const userStart = [230, 10];
-let posicionActual = userStart;
+let currentPosition = userStart;
 
 const ballStart = [270, 40];
-let ballPosicionActual = ballStart;
+let ballCurrentPosition = ballStart;
 
 let timerId;
 let score = 0;
 
-//mi bloque
-
-class block {
+//my block
+class Block {
   constructor(xAxis, yAxis) {
     this.bottomLeft = [xAxis, yAxis];
     this.bottomRight = [xAxis + blockWidth, yAxis];
@@ -28,28 +27,27 @@ class block {
   }
 }
 
-//todos los bloques
-
+//all my blocks
 const blocks = [
-  new block(10, 270),
-  new block(120, 270),
-  new block(230, 270),
-  new block(340, 270),
-  new block(450, 270),
-  new block(10, 240),
-  new block(120, 240),
-  new block(230, 240),
-  new block(340, 240),
-  new block(450, 240),
-  new block(10, 210),
-  new block(120, 210),
-  new block(230, 210),
-  new block(340, 210),
-  new block(450, 210),
+  new Block(10, 270),
+  new Block(120, 270),
+  new Block(230, 270),
+  new Block(340, 270),
+  new Block(450, 270),
+  new Block(10, 240),
+  new Block(120, 240),
+  new Block(230, 240),
+  new Block(340, 240),
+  new Block(450, 240),
+  new Block(10, 210),
+  new Block(120, 210),
+  new Block(230, 210),
+  new Block(340, 210),
+  new Block(450, 210),
 ];
 
-//dibujando los bloques
-function addblocks() {
+//draw my blocks
+function addBlocks() {
   for (let i = 0; i < blocks.length; i++) {
     const block = document.createElement("div");
     block.classList.add("block");
@@ -59,33 +57,32 @@ function addblocks() {
     console.log(blocks[i].bottomLeft);
   }
 }
-addblocks();
+addBlocks();
 
-//add usuario
+//add user
 const user = document.createElement("div");
 user.classList.add("user");
 grid.appendChild(user);
 drawUser();
 
-//add pelota
+//add ball
 const ball = document.createElement("div");
 ball.classList.add("ball");
 grid.appendChild(ball);
 drawBall();
 
-//movimientos
-
-function movement(e) {
+//move user
+function moveUser(e) {
   switch (e.key) {
-    case "FlechaIzquierda":
+    case "ArrowLeft":
       if (currentPosition[0] > 0) {
         currentPosition[0] -= 10;
         console.log(currentPosition[0] > 0);
         drawUser();
       }
       break;
-    case "FlechaDerecha":
-      if (currentPosition[0] < tablaWidth - blockWidth) {
+    case "ArrowRight":
+      if (currentPosition[0] < boardWidth - blockWidth) {
         currentPosition[0] += 10;
         console.log(currentPosition[0]);
         drawUser();
@@ -93,40 +90,41 @@ function movement(e) {
       break;
   }
 }
-document.addEventListener("keydown", movement);
+document.addEventListener("keydown", moveUser);
 
-//pull usuario
-function pullUser() {
+//draw User
+function drawUser() {
   user.style.left = currentPosition[0] + "px";
   user.style.bottom = currentPosition[1] + "px";
 }
 
-//pull pelota
-function pullBall() {
-  ball.style.left = ballPosicionActual[0] + "px";
-  ball.style.bottom = ballPosicionActual[1] + "px";
+//draw Ball
+function drawBall() {
+  ball.style.left = ballCurrentPosition[0] + "px";
+  ball.style.bottom = ballCurrentPosition[1] + "px";
 }
 
-//mover pelota
-function moverPelota() {
-  ballPosicionActual[0] += xDireccion;
-  ballPosicionActual[1] += YDirection;
+//move ball
+function moveBall() {
+  ballCurrentPosition[0] += xDirection;
+  ballCurrentPosition[1] += yDirection;
   drawBall();
   checkForCollisions();
 }
-timerId = setInterval(moverPelota, 30);
+timerId = setInterval(moveBall, 30);
 
-//Revisar x colisiones
-function checkxcolisiones() {
+//check for collisions
+function checkForCollisions() {
+  //check for block collision
   for (let i = 0; i < blocks.length; i++) {
     if (
-      ballPosicionActual[0] > blocks[i].bottomLeft[0] &&
-      ballPosicionActual[0] < blocks[i].bottomRight[0] &&
-      ballPosicionActual[1] + ballDiametro > blocks[i].bottomLeft[1] &&
-      ballPosicionActual[1] < blocks[i].topLeft[1]
+      ballCurrentPosition[0] > blocks[i].bottomLeft[0] &&
+      ballCurrentPosition[0] < blocks[i].bottomRight[0] &&
+      ballCurrentPosition[1] + ballDiameter > blocks[i].bottomLeft[1] &&
+      ballCurrentPosition[1] < blocks[i].topLeft[1]
     ) {
-      const allblocks = Array.from(document.querySelectorAll(".block"));
-      allblocks[i].classList.remove("block");
+      const allBlocks = Array.from(document.querySelectorAll(".block"));
+      allBlocks[i].classList.remove("block");
       blocks.splice(i, 1);
       changeDirection();
       score++;
@@ -134,49 +132,51 @@ function checkxcolisiones() {
       if (blocks.length == 0) {
         scoreDisplay.innerHTML = "✨🎉🎇Ganaste!🎈🥳🎈You won!🤑🎇🎉✨";
         clearInterval(timerId);
-        document.removeEventListener("keydown", movement);
+        document.removeEventListener("keydown", moveUser);
       }
     }
   }
-  //chequeo x hits en la pared
+  // check for wall hits
   if (
-    ballPosicionActual[0] >= tablaWidth - ballDiametro ||
-    ballPosicionActual[0] <= 0 ||
-    ballPosicionActual[1] >= tablaHeight - ballDiametro
+    ballCurrentPosition[0] >= boardWidth - ballDiameter ||
+    ballCurrentPosition[0] <= 0 ||
+    ballCurrentPosition[1] >= boardHeight - ballDiameter
   ) {
     changeDirection();
   }
-  //chequeo x hit usuario
+
+  //check for user collision
   if (
-    ballPosicionActual[0] > posicionActual[0] &&
-    ballPosicionActual[0] < posicionActual[0] + blockWidth &&
-    ballPosicionActual[1] > posicionActual[1] &&
-    ballPosicionActual[1] < posicionActual[1] + blockHeight
+    ballCurrentPosition[0] > currentPosition[0] &&
+    ballCurrentPosition[0] < currentPosition[0] + blockWidth &&
+    ballCurrentPosition[1] > currentPosition[1] &&
+    ballCurrentPosition[1] < currentPosition[1] + blockHeight
   ) {
     changeDirection();
   }
-  //game-over🐶
-  if (ballPosicionActual[1] <= 0) {
+
+  //game over
+  if (ballCurrentPosition[1] <= 0) {
     clearInterval(timerId);
     scoreDisplay.innerHTML = "🏴‍☠️😭Perdiste😭🏴‍☠️";
-    document.removeEventListener("keydown", movement);
+    document.removeEventListener("keydown", moveUser);
   }
 }
 
 function changeDirection() {
-  if (xDireccion === 2 && YDirection === 2) {
-    YDirection = -2;
+  if (xDirection === 2 && yDirection === 2) {
+    yDirection = -2;
     return;
   }
-  if (xDireccion === 2 && YDirection === -2) {
+  if (xDirection === 2 && yDirection === -2) {
     xDirection = -2;
     return;
   }
-  if (xDireccion === -2 && YDirection === -2) {
-    YDirection = 2;
+  if (xDirection === -2 && yDirection === -2) {
+    yDirection = 2;
     return;
   }
-  if (xDireccion === -2 && YDirection === 2) {
+  if (xDirection === -2 && yDirection === 2) {
     xDirection = 2;
     return;
   }
